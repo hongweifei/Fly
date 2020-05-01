@@ -1,10 +1,10 @@
+﻿
+#pragma once
 
-#include <string>
 
-#ifndef TOKEN_H
-#define TOKEN_H
 
-enum TokenCode
+
+typedef enum
 {
     /*运算符和分隔符*/
     TK_PLUS,        // +   加号
@@ -47,14 +47,21 @@ enum TokenCode
     KW_INT,         // int关键字
     KW_LONG,        // long关键字
     KW_CHAR,        // char关键字
-};
+}TokenCode;
+
 
 typedef struct
 {
-    short code;
-    std::string word;
+    TokenCode type;
+	char *str;
 }Token;
 
 
+void TokenSetTypeAndText(Token *token, TokenCode type,const char *text);
+void TokenSetTypeAndChar(Token *token, TokenCode type, int ch);
 
-#endif
+void TokenSetType(Token *token,TokenCode type);
+void TokenSetText(Token *token, const char *text);
+void TokenSetChar(Token *token, int ch);
+
+void TokenAddChar(Token *token,int ch);
