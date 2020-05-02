@@ -10,14 +10,14 @@ int main(int argc,char *argv[])
 {
 	if (argc > 1)
 	{
-		printf("%s\n",argv[1]);
+		//printf("%s\n",argv[1]);
 		FILE *fp = fopen(argv[1],"r");
 		if (fp != NULL)
 		{
 			Token *token = NULL;
 			while ((token = GetNextToken(fp)) != NULL)
 			{
-				printf("%s\n", token->str, strlen(token->str));
+				printf("%s  %d\n", token->str, token->type);
 				free(token);
 			}
 		}

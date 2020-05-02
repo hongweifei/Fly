@@ -92,6 +92,12 @@ BOOL IsSymbol(int ch)
     case ',':
         return TRUE;
         break;
+    case '\'':
+        return TRUE;
+        break;
+    case '\"':
+        return TRUE;
+        break;
     }
     return FALSE;
 }
@@ -137,6 +143,7 @@ BOOL NextIsChineseCharacter(FILE *fp)
     fseek(fp, -1L, SEEK_CUR);
     return FALSE;
 }
+
 
 Token *GetNextToken(FILE *fp)
 {
@@ -252,6 +259,24 @@ start:
         break;
     case ',':
         TokenSetTypeAndText(token, TK_COMMA, ",");
+        break;
+    case '\'':
+        TokenSetTypeAndText(token, TK_CCHAR, "");
+        ch = fgetc(fp);
+        while (ch != '\'')
+        {
+            TokenAddChar(token, ch);
+            ch = fgetc(fp);
+        }
+        break;
+    case '\"':
+        TokenSetTypeAndText(token, TK_CSTR, "");
+        ch = fgetc(fp);
+        while (ch != '\"')
+        {
+            TokenAddChar(token, ch);
+            ch = fgetc(fp);
+        }
         break;
     case ' ':
         ch = fgetc(fp);

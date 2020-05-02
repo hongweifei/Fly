@@ -38,10 +38,13 @@ void TokenSetChar(Token* token, int ch)
 
 void TokenAddChar(Token* token, int ch)
 {
-	unsigned int length = strlen(token->str);
-	token->str = (char*)realloc(token->str,sizeof(char) * (length + 1));
+	unsigned int length = strlen(token->str);//不算\0
+	token->str = (char*)realloc(token->str,sizeof(char) * (length + 1 + 1));
 
-	char str[2] = {'\0'};
-	sprintf(str, "%c", ch);
-	strcat(token->str,str);
+	token->str[length] = (char)ch;
+	token->str[length + 1] = '\0';
+
+	//char str[2] = {'\0'};
+	//sprintf(str, "%c", ch);
+	//strcat(token->str,str);
 }
