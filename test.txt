@@ -1,6 +1,15 @@
 
-int main()
+int main(int argc,char *argv[])
 {
+	short;
+	int;
+	long;
+	float;
+	double;
+	char;
+	string;
+	.;
+	...;
 	print("ÄãºÃÊÀ½ç£¡");
 	print("HelloWorld!");
 	return 0;

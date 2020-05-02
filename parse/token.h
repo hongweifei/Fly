@@ -48,7 +48,10 @@ typedef enum
     KW_SHORT,       // short关键字
     KW_INT,         // int关键字
     KW_LONG,        // long关键字
+    KW_FLOAT,       // float
+    KW_DOUBLE,      // double
     KW_CHAR,        // char关键字
+    KW_STRING       // string
 }TokenCode;
 
 

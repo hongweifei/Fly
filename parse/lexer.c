@@ -103,6 +103,29 @@ BOOL IsSymbol(int ch)
 }
 
 
+TokenCode IsKeyWord(const char* str)
+{
+    if (strcmp(str,"void") == 0)
+        return KW_VOID;
+    else if (strcmp(str, "short") == 0)
+        return KW_SHORT;
+    else if (strcmp(str, "int") == 0)
+        return KW_INT;
+    else if (strcmp(str, "long") == 0)
+        return KW_LONG;
+    else if (strcmp(str, "float") == 0)
+        return KW_FLOAT;
+    else if (strcmp(str, "double") == 0)
+        return KW_DOUBLE;
+    else if (strcmp(str, "char") == 0)
+        return KW_CHAR;
+    else if (strcmp(str, "string") == 0)
+        return KW_STRING;
+    else
+        return TK_IDENT;
+}
+
+
 BOOL NextIsAppointChar(FILE* fp, int ch, BOOL if_is_fp_back)
 {
     if (ch == fgetc(fp))
@@ -123,7 +146,7 @@ BOOL NextIsAppointString(FILE* fp, const char* str, BOOL if_is_fp_back)
     {
         if (!NextIsAppointChar(fp, str[i], if_is_fp_back))
         {
-            fseek(fp, -(i + 1), SEEK_CUR);
+            fseek(fp, -(i * 1L), SEEK_CUR);
             return FALSE;
         }
     }
@@ -165,7 +188,7 @@ start:
         }
         fseek(fp, -1L, SEEK_CUR);
 
-        token->type = TK_IDENT;
+        token->type = IsKeyWord(token->str);
         //printf("%s\n",token->str);
     }
     else if (IsDigit(ch))
@@ -180,7 +203,7 @@ start:
         }
         fseek(fp, -1L, SEEK_CUR);
 
-        token->type = TK_CINT;;
+        token->type = TK_CINT;
         //printf("%s\n", token->str);
     }
     else if (!IsLetter(ch) && !IsDigit(ch) && !IsSymbol(ch) && ch != EOF)
