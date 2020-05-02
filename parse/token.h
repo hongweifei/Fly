@@ -22,6 +22,7 @@ typedef enum
     TK_POINTSTO,    // -> 
     TK_DOT,         // .  
     TK_AND,         // &   地址与运算符
+
     TK_OPENPA,      // (   左圆括号
     TK_CLOSEPA,     // )   有圆括号
     TK_OPENBR,      // [   左中括号
@@ -31,6 +32,7 @@ typedef enum
     TK_SEMICOLON,   // ;   分号
     TK_COMMA,       // ,   逗号
     TK_ELLIPSIS,    // ... 省略号
+
     TK_EOF,         //文件结束符
 
     /*标识符*/

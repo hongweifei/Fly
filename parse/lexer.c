@@ -146,7 +146,7 @@ Token *GetNextToken(FILE *fp)
 
 start:
 
-    if (IsLetter(ch))
+    if (IsLetter(ch) || ch == '_')
     {
         TokenSetChar(token, ch);
         ch = fgetc(fp);
@@ -176,91 +176,93 @@ start:
         token->type = TK_CINT;;
         //printf("%s\n", token->str);
     }
-    else
+    else if (!IsLetter(ch) && !IsDigit(ch) && !IsSymbol(ch) && ch != EOF)
     {
-        switch (ch)
-        {
-        case '+':
-            TokenSetTypeAndText(token, TK_PLUS, "+");
-            break;
-        case '-':
-            if(NextIsAppointChar(fp,ch,FALSE))
-                TokenSetTypeAndText(token, TK_POINTSTO, "->");
-            else
-                TokenSetTypeAndText(token, TK_MINUS, "-");
-            break;
-        case '*':
-            TokenSetTypeAndText(token, TK_STAR, "*");
-            break;
-        case '/':
-            TokenSetTypeAndText(token, TK_DIVIDE, "/");
-            break;
-        case '=':
-            if (NextIsAppointChar(fp,'=',FALSE))
-                TokenSetTypeAndText(token, TK_EQ, "==");
-            else
-                TokenSetTypeAndText(token, TK_ASSIGN, "=");
-            break;
-        case '!':
-            if (NextIsAppointChar(fp, '=', FALSE))
-                TokenSetTypeAndText(token, TK_NEQ, "!=");
-            break;
-        case '<':
-            if(NextIsAppointChar(fp,'=',FALSE))
-                TokenSetTypeAndText(token, TK_LEQ, "<=");
-            else
-                TokenSetTypeAndText(token, TK_LT, "<");
-            break;
-        case '>':
-            if (NextIsAppointChar(fp, '=', FALSE))
-                TokenSetTypeAndText(token, TK_GEQ, ">=");
-            else
-                TokenSetTypeAndText(token, TK_GT, ">");
-            break;
-        case '.':
-            if (NextIsAppointString(fp,"..",FALSE))
-                TokenSetTypeAndText(token, TK_ELLIPSIS, "...");
-            else
-                TokenSetTypeAndText(token, TK_DOT, ".");
-            break;
-        case '&':
-            TokenSetTypeAndText(token, TK_AND, "&");
-            break;
-        case '(':
-            TokenSetTypeAndText(token, TK_OPENPA, "(");
-            break;
-        case ')':
-            TokenSetTypeAndText(token, TK_CLOSEPA, ")");
-            break;
-        case '[':
-            TokenSetTypeAndText(token, TK_OPENBR, "[");
-            break;
-        case ']':
-            TokenSetTypeAndText(token, TK_CLOSEBR, "]");
-            break;
-        case '{':
-            TokenSetTypeAndText(token, TK_BEGIN, "{");
-            break;
-        case '}':
-            TokenSetTypeAndText(token, TK_END, "}");
-            break;
-        case ';':
-            TokenSetTypeAndText(token, TK_SEMICOLON, ";");
-            break;
-        case ',':
-            TokenSetTypeAndText(token, TK_COMMA, ",");
-            break;
-        case ' ':
-            ch = fgetc(fp);
-            goto start;
-            break;
-        case '\n':
-            ch = fgetc(fp);
-            goto start;
-        case EOF:
-            return NULL;
-            break;
-        }
+        ch = fgetc(fp);
+        goto start;
+    }
+    else switch (ch)
+    {
+    case '+':
+        TokenSetTypeAndText(token, TK_PLUS, "+");
+        break;
+    case '-':
+        if(NextIsAppointChar(fp,ch,FALSE))
+            TokenSetTypeAndText(token, TK_POINTSTO, "->");
+        else
+            TokenSetTypeAndText(token, TK_MINUS, "-");
+        break;
+    case '*':
+        TokenSetTypeAndText(token, TK_STAR, "*");
+        break;
+    case '/':
+        TokenSetTypeAndText(token, TK_DIVIDE, "/");
+        break;
+    case '=':
+        if (NextIsAppointChar(fp,'=',FALSE))
+            TokenSetTypeAndText(token, TK_EQ, "==");
+        else
+            TokenSetTypeAndText(token, TK_ASSIGN, "=");
+        break;
+    case '!':
+        if (NextIsAppointChar(fp, '=', FALSE))
+            TokenSetTypeAndText(token, TK_NEQ, "!=");
+        break;
+    case '<':
+        if(NextIsAppointChar(fp,'=',FALSE))
+            TokenSetTypeAndText(token, TK_LEQ, "<=");
+        else
+            TokenSetTypeAndText(token, TK_LT, "<");
+        break;
+    case '>':
+        if (NextIsAppointChar(fp, '=', FALSE))
+            TokenSetTypeAndText(token, TK_GEQ, ">=");
+        else
+            TokenSetTypeAndText(token, TK_GT, ">");
+        break;
+    case '.':
+        if (NextIsAppointString(fp,"..",FALSE))
+            TokenSetTypeAndText(token, TK_ELLIPSIS, "...");
+        else
+            TokenSetTypeAndText(token, TK_DOT, ".");
+        break;
+    case '&':
+        TokenSetTypeAndText(token, TK_AND, "&");
+        break;
+    case '(':
+        TokenSetTypeAndText(token, TK_OPENPA, "(");
+        break;
+    case ')':
+        TokenSetTypeAndText(token, TK_CLOSEPA, ")");
+        break;
+    case '[':
+        TokenSetTypeAndText(token, TK_OPENBR, "[");
+        break;
+    case ']':
+        TokenSetTypeAndText(token, TK_CLOSEBR, "]");
+        break;
+    case '{':
+        TokenSetTypeAndText(token, TK_BEGIN, "{");
+        break;
+    case '}':
+        TokenSetTypeAndText(token, TK_END, "}");
+        break;
+    case ';':
+        TokenSetTypeAndText(token, TK_SEMICOLON, ";");
+        break;
+    case ',':
+        TokenSetTypeAndText(token, TK_COMMA, ",");
+        break;
+    case ' ':
+        ch = fgetc(fp);
+        goto start;
+        break;
+    case '\n':
+        ch = fgetc(fp);
+        goto start;
+    case EOF:
+        return NULL;
+        break;
     }
 
     return token;

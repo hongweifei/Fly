@@ -1,6 +1,7 @@
 ﻿
 
 #include "token.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -32,7 +33,7 @@ void TokenSetText(Token *token,const char *text)
 void TokenSetChar(Token* token, int ch)
 {
 	token->str = (char*)calloc(1,sizeof(char));
-	token->str[0] = (char)ch;
+	sprintf(token->str,"%c",ch);
 }
 
 void TokenAddChar(Token* token, int ch)
@@ -40,5 +41,7 @@ void TokenAddChar(Token* token, int ch)
 	unsigned int length = strlen(token->str);
 	token->str = (char*)realloc(token->str,sizeof(char) * (length + 1));
 
-	token->str[length] = (char)ch;
+	char str[2] = {'\0'};
+	sprintf(str, "%c", ch);
+	strcat(token->str,str);
 }
