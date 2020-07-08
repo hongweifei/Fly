@@ -17,7 +17,9 @@ int main(int argc,char *argv[])
 			Token *token = NULL;
 			while ((token = GetNextToken(fp)) != NULL)
 			{
-				printf("%s  %d\n", token->str, token->type);
+				//printf("%s  %d\n", token->str, token->type);
+				printf("Type: %d\n",token->type);
+				printf("Value: %s\n\n",token->str);
 				free(token);
 			}
 		}
